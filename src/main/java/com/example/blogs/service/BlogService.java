@@ -40,6 +40,7 @@ public class BlogService {
         return savedBlog;
     }
 
+    // for delete
     public void deleteBlog(Long id) {
         blogRepository.deleteById(id);
         logger.info("Deleted blog with id: {}", id);
