@@ -1,4 +1,3 @@
-
 services:
   blog-service:
     build: .
@@ -9,8 +8,27 @@ services:
       SPRING_DATASOURCE_USERNAME: sa
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
     volumes:
       - blogs-data:/data
+    networks:
+      - blognet
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672" # RabbitMQ messaging port
+      - "15672:15672" # RabbitMQ management console port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - blognet
 
 volumes:
   blogs-data:
+
+networks:
+  blognet:
+    driver: bridge
